@@ -20,10 +20,11 @@ const UserDropdown = () => {
   const handleSignOut = async () => {
     // Perform sign-out logic here (e.g., clear tokens, call API)
     // After sign-out, redirect to the login page
-    router.push("/sign-in");
+    router.replace("/sign-in");
   };
 
   const user = { name: "John Doe", email: "contact@gmail.com" }; // Replace with actual user data
+  const initial = (user.name?.[0] ?? user.email?.[0] ?? "?").toUpperCase();
 
   return (
     <DropdownMenu>
@@ -35,11 +36,14 @@ const UserDropdown = () => {
           }
         >
           <Avatar className={"h-8 w-8"}>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage
+              src={"https://github.com/shadcn.png"}
+              alt={`${user.name} avatar`}
+            />
             <AvatarFallback
               className={"bg-yellow-500 text-yellow-900 text-sm font-bold"}
             >
-              {user.name[0]}
+              {initial}
             </AvatarFallback>
           </Avatar>
           <div className={"hidden md:flex flex-col items-start"}>
@@ -53,11 +57,14 @@ const UserDropdown = () => {
         <DropdownMenuLabel>
           <div className={"flex relative items-center gap-3 py-2"}>
             <Avatar className={"h-10 w-10"}>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage
+                src={"https://github.com/shadcn.png"}
+                alt={`${user.name} avatar`}
+              />
               <AvatarFallback
                 className={"bg-yellow-500 text-yellow-900 text-sm font-bold"}
               >
-                {user.name[0]}
+                {initial}
               </AvatarFallback>
             </Avatar>
             <div className={"flex flex-col"}>
