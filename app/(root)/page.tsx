@@ -1,5 +1,3 @@
-"use client";
-
 import TradingViewWidget from "@/components/TradingViewWidget";
 import {
   HEATMAP_WIDGET_CONFIG,
@@ -7,7 +5,6 @@ import {
   MARKET_OVERVIEW_WIDGET_CONFIG,
   TOP_STORIES_WIDGET_CONFIG,
 } from "@/lib/constants";
-import { useMemo } from "react";
 
 const Home = () => {
   const scriptUrl = `https://s3.tradingview.com/external-embedding/embed-widget-`;
@@ -19,7 +16,7 @@ const Home = () => {
           <TradingViewWidget
             title={"Market Overview"}
             scriptUrl={`${scriptUrl}market-overview.js`}
-            config={useMemo(() => MARKET_OVERVIEW_WIDGET_CONFIG, [])}
+            config={MARKET_OVERVIEW_WIDGET_CONFIG}
             className={"custom-chart"}
             height={600}
           />
@@ -29,7 +26,7 @@ const Home = () => {
           <TradingViewWidget
             title={"Stock Heatmap"}
             scriptUrl={`${scriptUrl}stock-heatmap.js`}
-            config={useMemo(() => HEATMAP_WIDGET_CONFIG, [])}
+            config={HEATMAP_WIDGET_CONFIG}
             height={600}
           />
         </div>
@@ -39,15 +36,16 @@ const Home = () => {
         <div className={"h-full md:col-span-1 xl:col-span-1"}>
           <TradingViewWidget
             scriptUrl={`${scriptUrl}timeline.js`}
-            config={useMemo(() => TOP_STORIES_WIDGET_CONFIG, [])}
+            config={TOP_STORIES_WIDGET_CONFIG}
             height={600}
           />
         </div>
 
         <div className={"h-full md:col-span-1 xl:col-span-2"}>
           <TradingViewWidget
+            title={"Market Quotes"}
             scriptUrl={`${scriptUrl}market-quotes.js`}
-            config={useMemo(() => MARKET_DATA_WIDGET_CONFIG, [])}
+            config={MARKET_DATA_WIDGET_CONFIG}
             height={600}
           />
         </div>
