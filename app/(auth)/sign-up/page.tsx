@@ -10,6 +10,7 @@ import {
   RISK_TOLERANCE_OPTIONS,
 } from "@/lib/constants";
 import { CountrySelectField } from "@/components/forms/CountrySelectField";
+import FooterLink from "@/components/forms/FooterLink";
 
 const SignUp = () => {
   const {
@@ -41,7 +42,6 @@ const SignUp = () => {
   return (
     <>
       <h1 className={"form-title"}>Sign Up Page & Personalize</h1>
-
       <form onSubmit={handleSubmit(onSubmit)} className={"space-y-5"}>
         <InputField
           name={"fullName"}
@@ -124,6 +124,7 @@ const SignUp = () => {
             ? "Creating Account..."
             : "Start Your Investment Journey"}
         </Button>
+          <FooterLink text={"Already have an account?"} linkText={"Sign In"} href={"/sign-in"} />
       </form>
     </>
   );
