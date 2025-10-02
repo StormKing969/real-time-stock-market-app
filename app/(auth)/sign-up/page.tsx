@@ -17,6 +17,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     defaultValues: {
@@ -59,7 +60,7 @@ const SignUp = () => {
           error={errors.email}
           validation={{
             required: "Email Address is required",
-            pattern: /^[^\s@]@[a-zA-Z\s]{2,20}\.[a-zA-Z\s]{2,10}$/,
+            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: "Invalid email address.",
           }}
         />
@@ -86,7 +87,12 @@ const SignUp = () => {
           type={"password"}
           register={register}
           error={errors.confirmPassword}
-          validation={{ required: "Password is required", minLength: 8 }}
+          validation={{
+            required: "Password is required",
+            minLength: 8,
+            validate: (value: string) =>
+              value === watch("password") || "Passwords do not match",
+          }}
         />
         <SelectField
           name={"investmentGoals"}
@@ -124,7 +130,11 @@ const SignUp = () => {
             ? "Creating Account..."
             : "Start Your Investment Journey"}
         </Button>
-          <FooterLink text={"Already have an account?"} linkText={"Sign In"} href={"/sign-in"} />
+        <FooterLink
+          text={"Already have an account?"}
+          linkText={"Sign In"}
+          href={"/sign-in"}
+        />
       </form>
     </>
   );
