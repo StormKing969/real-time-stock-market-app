@@ -31,9 +31,7 @@ export const connectToDatabase = async () => {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, opts);
   }
   try {
     cached.conn = await cached.promise;
@@ -42,6 +40,9 @@ export const connectToDatabase = async () => {
     throw error;
   }
 
-  console.log(`Connected to MongoDB ${process.env.NODE_ENV} - ${MONGODB_URI}`);
+  const dbName = mongoose.connection.name || "database";
+  console.log(
+    `Connected to MongoDB (${process.env.NODE_ENV}) - database: ${dbName}`,
+  );
   return cached.conn;
 };

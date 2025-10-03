@@ -25,7 +25,11 @@ function loadEnv() {
             (value.startsWith('"') && value.endsWith('"')) ||
             (value.startsWith("'") && value.endsWith("'"))
           ) {
-            value = value.slice(1, -1);
+            if (value.length >= 2) {
+              value = value.slice(1, -1);
+            } else {
+              value = "";
+            }
           }
           if (!(key in process.env)) {
             process.env[key] = value;
@@ -34,7 +38,7 @@ function loadEnv() {
         // Stop at the first file found to mimic Next.js precedence
         break;
       }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_) {
       // ignore parsing errors; we'll rely on process.env
     }
@@ -65,7 +69,12 @@ async function main() {
     await mongoose.connect(uri, { bufferCommands: false });
 
     // Perform a ping via the underlying driver
-    const admin = mongoose.connection.db.admin();
+    const db = mongoose.connection.db;
+    if (!db) {
+      return new Error("Database connection not established");
+    }
+
+    const admin = db.admin();
     const pingResult = await admin.ping();
 
     const duration = Date.now() - start;
@@ -85,11 +94,14 @@ async function main() {
     console.log("Connection closed.");
   } catch (err) {
     console.error("FAILED to connect to MongoDB.");
-    if (err && err.message) {
+    if (err instanceof Error) {
       console.error("Message:", err.message);
-    }
-    if (err && err.cause) {
-      console.error("Cause:", err.cause);
+
+      if (err.cause) {
+        console.error("Cause:", err.cause);
+      }
+    } else {
+      console.error("Error:", err);
     }
     // For more details, uncomment the next line
     // console.error(err);
@@ -97,6 +109,4 @@ async function main() {
   }
 }
 
-main().then(r => {
-    return r;
-});
+main();
